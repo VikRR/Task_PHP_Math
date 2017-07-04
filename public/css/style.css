@@ -1,0 +1,40 @@
+body{
+    /*background-color: grey;*/
+}
+div{
+    min-height: 38px;
+}
+
+.line{
+    display: flex;
+    border-bottom: 1px solid grey;
+    padding: 5px 0;
+}
+
+.city-language{
+    display: flex;
+    align-items: flex-start;
+}
+.block-country{
+    min-width: 33%;
+}
+.block-city{
+    min-width: 66%;
+}
+.block-lang{
+    display: inline-block;
+}
+.city-language > div, .block-lang, .inline-block{
+    min-width: 50%;
+}
+.inline-block{
+    display: inline-block;
+    /*min-width: 50%;*/
+}
+h3.inline-block {
+    min-width: 49%;
+}
+.button-block{
+    float: right;
+    margin: 0 20px;
+}
