@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Model\Language;
 use Illuminate\Http\Request;
 use App\Model\City as CityModel;
 use App\Model\Language as LanguageModel;
@@ -39,7 +37,7 @@ class LanguageController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $city = CityModel::findOrFail($id);
+        $city = CityModel::find($id);
         $lang = LanguageModel::firstOrCreate([
             'language' => strtolower($request->get('language')),
         ]);
@@ -71,7 +69,7 @@ class LanguageController extends Controller
      */
     public function edit($id)
     {
-        $language = LanguageModel::findOrFail($id);
+        $language = LanguageModel::find($id);
 
         return view('edit.language', compact('language'));
     }
@@ -85,7 +83,7 @@ class LanguageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $language = LanguageModel::findOrFail($id);
+        $language = LanguageModel::find($id);
         $language->fill([
             'language'=> strtolower($request->get('language')),
         ]);
@@ -101,7 +99,7 @@ class LanguageController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(Language $language)
+    public function destroy(LanguageModel $language)
     {
         $language->delete();
 
@@ -115,7 +113,7 @@ class LanguageController extends Controller
      */
     public function selectLanguages(Request $request)
     {
-        $city = CityModel::findOrFail($request->id);
+        $city = CityModel::find($request->id);
 
         return response()->json($city->lang);
     }
