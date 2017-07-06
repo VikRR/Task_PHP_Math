@@ -76,7 +76,7 @@ class CityController extends Controller
      */
     public function edit($id)
     {
-        $city = CityModel::findOrFail($id);
+        $city = CityModel::find($id);
 
         return view('edit.city', compact('city'));
     }
@@ -90,7 +90,7 @@ class CityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $city = CityModel::findOrFail($id);
+        $city = CityModel::find($id);
         $city->fill([
             'city'=> strtolower($request->get('city')),
         ]);
@@ -102,11 +102,11 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param City $city
+     * @param CityModel $city
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(City $city)
+    public function destroy(CityModel $city)
     {
         $city->delete();
 
