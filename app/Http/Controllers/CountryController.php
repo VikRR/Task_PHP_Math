@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Model\Country as CountryModel;
-use App\Model\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller
@@ -100,7 +99,7 @@ class CountryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Country $country
+     * @param CountryModel $country
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
