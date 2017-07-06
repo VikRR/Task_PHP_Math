@@ -1,5 +1,7 @@
 (function ($) {
     $(function () {
+        let app = $('#app'),
+            formAddData = $('#form-add-data');
 
         $.ajaxSetup({
             headers: {
@@ -7,6 +9,7 @@
             }
         });
         //Обработка ajax формы добавления страны
+        // Ответ сервера, форма для добавления города
 
         $('#form-add-country').on('submit', function (e) {
             let formCountry = $(this);
@@ -17,15 +20,15 @@
                 data: formCountry.serialize(),
                 dataType: 'html',
                 success: function (data) {
-                    // Ответ сервера, форма для добавления города
-                    $('#form-add-data').html(data);
+                    formAddData.html(data);
                 }
             })
         });
 
         //Обработка ajax формы добавления города
+        // ответ сервера, форма для добавления языка
 
-        $('#app').on('submit', '#form-add-city', function (event) {
+        app.on('submit', '#form-add-city', function (event) {
             let formCity = $(this);
             event.preventDefault();
             $.ajax({
@@ -34,46 +37,54 @@
                 data: formCity.serialize(),
                 dataType: 'html',
                 success: function (data) {
-                    // ответ сервера, форма для добавления языка
-                    $('#form-add-data').html(data);
+                    formAddData.html(data);
                 }
             })
         });
 
         //Обработка ajax формы выбор страны
+        //ответ сервера все города соответствующие стране
 
         $('#select-country').on('change', function () {
-            let country_id = $(this).val();
+            let country_id = $(this).val(),
+                optionsList = '';
             $.ajax({
-                type:'get',
+                type: 'get',
                 url: 'find/city',
                 dataType: 'json',
                 data: {'id': country_id},
                 success: function (data) {
-                    //ответ сервера все города соответствующие стране
                     $.each(data, function (index, city) {
-                        $('#city').append('<option value="'+city.id+'">'+city.city+'</option>');
-                    })
+                        optionsList += '<option value="' + city.id + '">' + city.city + '</option>';
+                    });
+                    $('#city').append(optionsList);
                 }
             })
         });
 
         //Обработка ajax формы выбор города
+        //ответ сервера все языки связанные с городом
 
-        $('#app').on('change', '#city', function(){
-            let city_id = $(this).val();
-            console.log(city_id);
+        app.on('change', '#city', function () {
+            let city_id = $(this).val(),
+                title = $('#title'),
+                langsList = '<ul>';
             $.ajax({
-                type:'get',
+                type: 'get',
                 url: 'find/language',
                 dataType: 'json',
                 data: {'id': city_id},
                 success: function (data) {
-                    //ответ сервера все языки связанные с городом
-                    $('#title').text('Используют языки:');
-                    $.each(data, function (index, lang) {
-                        $('#lang').append('<li>'+lang.language+'</li>');
-                    })
+                    if (data.length) {
+                        title.text('Используют языки:');
+                        $.each(data, function (index, lang) {
+                            langsList += '<li>'+lang.language+'</li>';
+                        });
+                        langsList += '</ul>';
+                        $('#lang').append(langsList);
+                    }else{
+                        title.text('Ни одного языка еще не добавлено.');
+                    }
                 }
             })
         })
